@@ -1,14 +1,44 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect
+from django.contrib import auth
+from django.urls import reverse
+from django.contrib import messages
+
+from authapp.forms import FormUserLogin, FormUserRegister
 
 
 # Create your views here.
 def login(request):
-    return render(request, 'authapp/login.html')
+    if request.method == 'POST':
+        form = FormUserLogin(data=request.POST)
+        if form.is_valid():
+            username = form.username
+            password = form.password
+            user = auth.authenticate(username=username, password=password)
+            if user and user.is_active:
+                auth.login(request, user)
+                return HttpResponseRedirect(reverse('index'))
+    else:
+        form = FormUserLogin()
+        context = {'form': form}
+        return render(request, 'authapp/login.html', context)
 
 
 def register(request):
-    return render(request, 'authapp/register.html')
+    if request.method == 'POST':
+        form = FormUserRegister(data=request.POST)
+        if form.is_valid():
+            first_name = form.first_name
+            last_name = form.last_name
+            username = form.username
+            email = form.email
+            password = form.password2
+            pass
+    else:
+        return render(request, 'authapp/register.html')
 
 
 def profile(request):
-    return render(request, 'authapp/profile.html')
+    if request.method == 'POST':
+        pass
+    elif request.method == 'GET':
+        return render(request, 'authapp/profile.html')
