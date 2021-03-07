@@ -17,6 +17,8 @@ def login(request):
             if user and user.is_active:
                 auth.login(request, user)
                 return HttpResponseRedirect(reverse('index'))
+        else:
+            print('Error')
     else:
         form = FormUserLogin()
         context = {'form': form}
