@@ -11,8 +11,8 @@ def login(request):
     if request.method == 'POST':
         form = FormUserLogin(data=request.POST)
         if form.is_valid():
-            username = form.username
-            password = form.password
+            username = request.POST['username']
+            password = request.POST['password']
             user = auth.authenticate(username=username, password=password)
             if user and user.is_active:
                 auth.login(request, user)
@@ -27,11 +27,11 @@ def register(request):
     if request.method == 'POST':
         form = FormUserRegister(data=request.POST)
         if form.is_valid():
-            first_name = form.first_name
-            last_name = form.last_name
-            username = form.username
-            email = form.email
-            password = form.password2
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
+            username = request.POST['username']
+            email = request.POST['email']
+            password = request.POST['password2']
             pass
     else:
         return render(request, 'authapp/register.html')
