@@ -36,7 +36,9 @@ def register(request):
             password = request.POST['password2']
             pass
     else:
-        return render(request, 'authapp/register.html')
+        form = FormUserRegister()
+        context = {'form': form}
+        return render(request, 'authapp/register.html', context)
 
 
 def profile(request):
@@ -44,3 +46,8 @@ def profile(request):
         pass
     elif request.method == 'GET':
         return render(request, 'authapp/profile.html')
+
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect(reverse('mainapp:index'))

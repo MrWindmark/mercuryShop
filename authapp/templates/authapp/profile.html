@@ -33,10 +33,10 @@
                 <!--                    <a class="nav-link" href="../auth/login.html">Войти <i class="fas fa-sign-in-alt"></i></a>-->
                 <!--                </li>-->
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Валерий П. <i class="fas fa-user-circle"></i></a>
+                    <a class="nav-link active" href="{% url 'auth:profile' %}">{{ user }}<i class="fas fa-user-circle"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Выйти <i class="fas fa-sign-out-alt"></i></a>
+                    <a class="nav-link" href="{% url 'auth:logout' %}">Выйти <i class="fas fa-sign-out-alt"></i></a>
                 </li>
             </ul>
         </div>
