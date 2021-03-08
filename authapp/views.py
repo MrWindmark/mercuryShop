@@ -29,12 +29,10 @@ def register(request):
     if request.method == 'POST':
         form = FormUserRegister(data=request.POST)
         if form.is_valid():
-            first_name = request.POST['first_name']
-            last_name = request.POST['last_name']
-            username = request.POST['username']
-            email = request.POST['email']
-            password = request.POST['password2']
-            pass
+            form.save()
+            return HttpResponseRedirect(reverse('auth:login'))
+        else:
+            print('Error')
     else:
         form = FormUserRegister()
         context = {'form': form}
