@@ -1,0 +1,11 @@
+[
+  {
+    "model": "mainapp.salespecial",
+    "pk": 1,
+    "fields": {
+      "name": "Just Do IT",
+      "description": "Yes you can!",
+      "active": true
+    }
+  }
+]

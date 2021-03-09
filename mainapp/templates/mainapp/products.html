@@ -54,14 +54,14 @@
                 {% for item in products %}
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card h-100">
-                            <a href="#">
+                            <a href="{% url 'products:product' item.id %}">
                                 <img class="card-img-top"
                                      src="/media/{{ item.img_link }}"
                                      alt="">
                             </a>
                             <div class="card-body">
                                 <h4 class="card-title">
-                                    <a href="#">{{ item.name }}</a>
+                                    <a href="{% url 'products:product' item.id %}">{{ item.name }}</a>
                                 </h4>
                                 <h5>{{ item.price }} руб.</h5>
                                 <p class="card-text">{{ item.description }}</p>
