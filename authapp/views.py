@@ -3,7 +3,7 @@ from django.contrib import auth
 from django.urls import reverse
 from django.contrib import messages
 
-from authapp.forms import FormUserLogin, FormUserRegister
+from authapp.forms import FormUserLogin, FormUserRegister, FormUserProfile
 
 
 # Create your views here.
@@ -17,12 +17,10 @@ def login(request):
             if user and user.is_active:
                 auth.login(request, user)
                 return HttpResponseRedirect(reverse('index'))
-        else:
-            print('Error')
     else:
         form = FormUserLogin()
-        context = {'form': form}
-        return render(request, 'authapp/login.html', context)
+    context = {'form': form}
+    return render(request, 'authapp/login.html', context)
 
 
 def register(request):
@@ -31,21 +29,28 @@ def register(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('auth:login'))
-        else:
-            print('Error')
     else:
         form = FormUserRegister()
-        context = {'form': form}
-        return render(request, 'authapp/register.html', context)
+    context = {'form': form}
+    return render(request, 'authapp/register.html', context)
 
 
 def profile(request):
     if request.method == 'POST':
-        pass
-    elif request.method == 'GET':
-        return render(request, 'authapp/profile.html')
+        form = FormUserProfile(data=request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.info(request, 'Data has been changed successfully!')
+            return HttpResponseRedirect(reverse('auth:profile'))
+    else:
+        form = FormUserProfile(instance=request.user)
+    context = {
+        'form': form,
+        'title': 'GeekShop - Профиль',
+    }
+    return render(request, 'authapp/profile.html', context)
 
 
 def logout(request):
     auth.logout(request)
-    return HttpResponseRedirect(reverse('mainapp:index'))
+    return HttpResponseRedirect(reverse('index'))
