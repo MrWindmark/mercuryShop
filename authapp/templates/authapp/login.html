@@ -13,8 +13,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-        {% endif %}
-        {% if messages %}
+        {% elif messages %}
             {% for message in messages %}
                 <div class="alert alert-success alert-dismissible fade show" role="alert"
                      style="margin-top: 50px;">
