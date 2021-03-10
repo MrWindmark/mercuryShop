@@ -4,9 +4,11 @@ from django.urls import reverse
 from django.contrib import messages
 
 from authapp.forms import FormUserLogin, FormUserRegister, FormUserProfile
-
+from basketapp.models import Basket
 
 # Create your views here.
+
+
 def login(request):
     if request.method == 'POST':
         form = FormUserLogin(data=request.POST)
@@ -47,6 +49,7 @@ def profile(request):
         form = FormUserProfile(instance=request.user)
     context = {
         'form': form,
+        'baskets': Basket.objects.all(),
         'title': 'GeekShop - Профиль',
     }
     return render(request, 'authapp/profile.html', context)
