@@ -40,7 +40,7 @@ def register(request):
 
 def profile(request):
     if request.method == 'POST':
-        form = FormUserProfile(data=request.POST, instance=request.user)
+        form = FormUserProfile(data=request.POST, files=request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             messages.info(request, 'Data has been changed successfully!')

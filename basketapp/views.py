@@ -21,7 +21,7 @@ def basket_add(request, prod_id=None):
         return HttpResponseRedirect(reverse('auth:profile'))
 
 
-def basket_rem(request, basket_id=None):
+def basket_remove(request, basket_id=None):
     curr_basket = Basket.objects.get(user=request.user, id=basket_id)
     curr_basket.delete()
     return HttpResponseRedirect(reverse('auth:profile'))
