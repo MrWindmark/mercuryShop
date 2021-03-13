@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import auth
 from django.urls import reverse
@@ -38,6 +39,7 @@ def register(request):
     return render(request, 'authapp/register.html', context)
 
 
+@login_required
 def profile(request):
     user = request.user
     if request.method == 'POST':
@@ -48,17 +50,9 @@ def profile(request):
             return HttpResponseRedirect(reverse('auth:profile'))
     else:
         form = FormUserProfile(instance=user)
-    basket = Basket.objects.filter(user=user)
-    total_quantity = 0
-    total_price = 0
-    for elem in basket:
-        total_quantity += elem.quantity
-        total_price += elem.sum()
     context = {
         'form': form,
-        'baskets': basket,
-        'total_quantity': total_quantity,
-        'total_price': total_price,
+        'baskets': Basket.objects.filter(user=user),
         'title': 'GeekShop - Профиль',
     }
     return render(request, 'authapp/profile.html', context)
