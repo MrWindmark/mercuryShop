@@ -39,17 +39,26 @@ def register(request):
 
 
 def profile(request):
+    user = request.user
     if request.method == 'POST':
-        form = FormUserProfile(data=request.POST, files=request.FILES, instance=request.user)
+        form = FormUserProfile(data=request.POST, files=request.FILES, instance=user)
         if form.is_valid():
             form.save()
             messages.info(request, 'Data has been changed successfully!')
             return HttpResponseRedirect(reverse('auth:profile'))
     else:
-        form = FormUserProfile(instance=request.user)
+        form = FormUserProfile(instance=user)
+    basket = Basket.objects.filter(user=user)
+    total_quantity = 0
+    total_price = 0
+    for elem in basket:
+        total_quantity += elem.quantity
+        total_price += elem.sum()
     context = {
         'form': form,
-        'baskets': Basket.objects.all(),
+        'baskets': basket,
+        'total_quantity': total_quantity,
+        'total_price': total_price,
         'title': 'GeekShop - Профиль',
     }
     return render(request, 'authapp/profile.html', context)
