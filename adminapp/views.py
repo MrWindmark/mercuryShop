@@ -1,6 +1,10 @@
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 
 from authapp.models import User
+from adminapp.forms import UserAdminRegistrarionForm
 
 # Create your views here.
 
@@ -10,7 +14,15 @@ def index(request):
 
 
 def admin_user_create(request):
-    return render(request, 'adminapp/admin-users-create.html')
+    if request.method == 'POST':
+        form = UserAdminRegistrarionForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('adminapp:users_read'))
+    else:
+        form = UserAdminRegistrarionForm()
+    context = {'form': form}
+    return render(request, 'adminapp/admin-users-create.html', context)
 
 
 def admin_user_read(request):

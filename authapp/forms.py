@@ -36,7 +36,7 @@ class FormUserRegister(UserCreationForm):
 
 
 class FormUserProfile(UserChangeForm):
-    avatar = forms.ImageField(widget=forms.FileInput())
+    avatar = forms.ImageField(widget=forms.FileInput(), required=False)
 
     class Meta:
         model = User
