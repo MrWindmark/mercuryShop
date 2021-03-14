@@ -3,7 +3,7 @@ window.onload = function () {
         const target_href = event.target;
 
         $.ajax({
-            url: "/basket/edit/" + target_href.name + "/" + target_href.value + "/",
+            url: "/basket/edit/" + target_href.name + "/" + target_href.value,
             success: function (data) {
                 $('.basket_block').html(data.result);
             },
