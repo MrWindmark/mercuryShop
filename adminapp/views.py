@@ -20,4 +20,4 @@ def admin_user_update(request):
 
 
 def admin_user_delete(request):
-    return render(request, '')
+    return render(request, 'adminapp/admin-users-update-delete.html')

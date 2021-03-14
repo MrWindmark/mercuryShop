@@ -34,7 +34,7 @@
                                 </tfoot>
                                 <tbody>
                                 <tr>
-                                    <td><a href="#" style="color: dodgerblue">vokler</a></td>
+                                    <td><a href="{% url 'adminapp:update_user' %}" style="color: dodgerblue">vokler</a></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -42,7 +42,7 @@
                                     <td class="text-center"><i class="fas fa-check-circle"></i></td>
                                 </tr>
                                 <tr>
-                                    <td><a href="admin-users-update-delete.html" style="color: dodgerblue">valeriy</a></td>
+                                    <td><a href="{% url 'adminapp:update_user' %}" style="color: dodgerblue">valeriy</a></td>
                                     <td>Valeriy</td>
                                     <td>Pavlikov</td>
                                     <td>valerypavlikov@yandex.ru</td>
@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="admin-users-create.html">
+                        <a href="{% url 'adminapp:create-user' %}">
                             <button class="btn btn-success">Создать пользователя</button>
                         </a>
                     </div>
