@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from authapp.models import User
+
 # Create your views here.
 
 
@@ -12,7 +14,8 @@ def admin_user_create(request):
 
 
 def admin_user_read(request):
-    return render(request, 'adminapp/admin-users-read.html')
+    context = {'users': User.objects.all()}
+    return render(request, 'adminapp/admin-users-read.html', context)
 
 
 def admin_user_update(request):
