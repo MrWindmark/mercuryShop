@@ -1,0 +1,53 @@
+{% extends 'adminapp/base-admin.html' %}
+{% load staticfiles %}
+
+{% block main %}
+    <div class="container-fluid">
+        <h1 class="mt-4">Продукты</h1>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table mr-1"></i>
+                Продукты
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Цена</th>
+                            <th>Количество</th>
+                            <th>Категория</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Название</th>
+                            <th>Цена</th>
+                            <th>Количество</th>
+                            <th>Категория</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        {% for item in products %}
+                            <tr>
+                                <td><a href="{% url 's' user.id %}"
+                                       style="color: dodgerblue">{{ item.name }}</a>
+                                </td>
+                                <td>{{ item.price }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.category }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'staff_admin:create-user' %}">
+                    <button class="btn btn-success">Добавить товар</button>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

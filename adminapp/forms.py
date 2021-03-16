@@ -16,7 +16,6 @@ class UserAdminRegistrationForm(FormUserRegister):
 
 
 class UserAdminChangeForm(FormUserProfile):
-
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'password', 'is_active', 'is_staff', 'is_superuser')
@@ -28,4 +27,3 @@ class UserAdminChangeForm(FormUserProfile):
         for field_name, field in self.fields.items():
             if field_name == 'is_active' or field_name == 'is_staff' or field_name == 'is_superuser':
                 field.widget.attrs['class'] = 'py-4'
-
