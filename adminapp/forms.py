@@ -32,6 +32,8 @@ class UserAdminChangeForm(FormUserProfile):
 
 
 class AdminProductCreationForm(forms.ModelForm):
+    img_linked = forms.ImageField(widget=forms.FileInput(), required=False)
+
     class Meta:
         model = Product
         fields = ('name', 'description', 'short_description',
@@ -39,6 +41,8 @@ class AdminProductCreationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AdminProductCreationForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control py-4'
         self.fields['img_linked'].widget.attrs['class'] = 'custom-file-input'
 
 
@@ -49,8 +53,8 @@ class AdminProductReadForm(forms.ModelForm):
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     img_linked = models.ImageField(upload_to='products_images', blank=True)
     quantity = models.PositiveIntegerField(default=0)
-    category = models.ForeignKey(ProductCategory, null=True, on_delete=models.SET_NULL)
-    sale_action = models.ForeignKey(SaleSpecial, null=True, on_delete=models.SET_NULL, blank=True)
+    category = forms.ModelChoiceField(ProductCategory.objects.all(), empty_label=None)
+    sale_action = forms.ModelChoiceField(SaleSpecial.objects.all(), empty_label=None)
 
     class Meta:
         model = Product
@@ -59,3 +63,4 @@ class AdminProductReadForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AdminProductReadForm, self).__init__(*args, **kwargs)
+        self.fields['img_linked'].widget.attrs['class'] = 'custom-file-input'

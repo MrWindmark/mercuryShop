@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -53,8 +52,8 @@ def admin_user_update(request, user_id):
 @user_passes_test(lambda user: user.is_superuser, login_url='/')
 def admin_user_delete(request, user_id):
     user = User.objects.get(id=user_id)
-    user.is_active = False
-    user.save()
+    # user.is_active = False
+    user.delete()
     return HttpResponseRedirect(reverse('staff_admin:users_read'))
 
 
@@ -75,30 +74,25 @@ def admin_product_create(request):
         form = AdminProductCreationForm()
     context = {'form': form}
     return render(request, 'adminapp/admin-products-create.html', context)
-#
-#
-# def admin_product_read(request):
-#     context = {'users': Product.objects.all()}
-#     return render(request, 'adminapp/admin-product-read.html', context)
-#
-#
-# def admin_product_update(request, user_id):
-#     user = Product.objects.get(id=user_id)
-#     # if request.method == 'POST':
-#     #     form = UserAdminChangeForm(data=request.POST, files=request.FILES, instance=user)
-#     #     if form.is_valid():
-#     #         form.save()
-#     #         return HttpResponseRedirect(reverse('staff_admin:users_read'))
-#     # else:
-#     #     form = UserAdminChangeForm(instance=user)
-#     # context = {
-#     #     'form': form,
-#     #     'user': user,
-#     # }
-#     return render(request, 'adminapp/admin-users-update-delete.html') #, context)
-#
-#
-# def admin_product_delete(request, product_id):
-#     product = Product.objects.get(id=product_id)
-#     product.delete()
-#     return HttpResponseRedirect(reverse('staff_admin:'))
+
+
+def admin_product_update(request, product_id):
+    product = Product.objects.get(id=product_id)
+    if request.method == 'POST':
+        form = AdminProductCreationForm(data=request.POST, files=request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('staff_admin:read-product'))
+    else:
+        form = AdminProductCreationForm(instance=product)
+    context = {
+        'form': form,
+        'product': product
+    }
+    return render(request, 'adminapp/admin-products-edit.html', context)
+
+
+def admin_product_delete(request, product_id):
+    product = Product.objects.get(id=product_id)
+    product.delete()
+    return HttpResponseRedirect(reverse('staff_admin:read-product'))
