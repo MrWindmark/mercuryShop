@@ -52,8 +52,15 @@ def admin_user_update(request, user_id):
 @user_passes_test(lambda user: user.is_superuser, login_url='/')
 def admin_user_delete(request, user_id):
     user = User.objects.get(id=user_id)
-    # user.is_active = False
     user.delete()
+    return HttpResponseRedirect(reverse('staff_admin:users_read'))
+
+
+@user_passes_test(lambda user: user.is_superuser, login_url='/')
+def admin_user_disable(request, user_id):
+    user = User.objects.get(id=user_id)
+    user.is_active = False
+    user.save()
     return HttpResponseRedirect(reverse('staff_admin:users_read'))
 
 
