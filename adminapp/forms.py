@@ -42,7 +42,7 @@ class AdminProductCreationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AdminProductCreationForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control py-4'
+            field.widget.attrs['class'] = 'form-control py-2'
         self.fields['img_linked'].widget.attrs['class'] = 'custom-file-input'
 
 
