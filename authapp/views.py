@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import auth
 from django.urls import reverse
@@ -38,18 +39,20 @@ def register(request):
     return render(request, 'authapp/register.html', context)
 
 
+@login_required
 def profile(request):
+    user = request.user
     if request.method == 'POST':
-        form = FormUserProfile(data=request.POST, files=request.FILES, instance=request.user)
+        form = FormUserProfile(data=request.POST, files=request.FILES, instance=user)
         if form.is_valid():
             form.save()
             messages.info(request, 'Data has been changed successfully!')
             return HttpResponseRedirect(reverse('auth:profile'))
     else:
-        form = FormUserProfile(instance=request.user)
+        form = FormUserProfile(instance=user)
     context = {
         'form': form,
-        'baskets': Basket.objects.all(),
+        'baskets': Basket.objects.filter(user=user),
         'title': 'GeekShop - Профиль',
     }
     return render(request, 'authapp/profile.html', context)
