@@ -26,7 +26,7 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     short_description = models.CharField(max_length=128, blank=True)
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    img_link = models.ImageField(upload_to='products_images', blank=True)
+    img_linked = models.ImageField(upload_to='products_images', blank=True)
     quantity = models.PositiveIntegerField(default=0)
     category = models.ForeignKey(ProductCategory, null=True, on_delete=models.SET_NULL)
     sale_action = models.ForeignKey(SaleSpecial, null=True, on_delete=models.SET_NULL, blank=True)
