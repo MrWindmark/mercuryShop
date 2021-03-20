@@ -83,6 +83,7 @@ def admin_product_create(request):
     return render(request, 'adminapp/admin-products-create.html', context)
 
 
+@user_passes_test(lambda user: user.is_superuser, login_url='/')
 def admin_product_update(request, product_id):
     product = Product.objects.get(id=product_id)
     if request.method == 'POST':
@@ -99,6 +100,7 @@ def admin_product_update(request, product_id):
     return render(request, 'adminapp/admin-products-edit.html', context)
 
 
+@user_passes_test(lambda user: user.is_superuser, login_url='/')
 def admin_product_delete(request, product_id):
     product = Product.objects.get(id=product_id)
     product.delete()

@@ -13,6 +13,8 @@
 
                 <h1 class="my-4">GeekShop</h1>
                 <div class="list-group">
+                    <a href="{% url 'products:index'%}"
+                       class="list-group-item">Все товары</a>
                     {% for category in categories %}
                         <a href="{% url 'products:product' category.id %}"
                            class="list-group-item">{{ category.name }}</a>
@@ -105,6 +107,7 @@
                                 <a class="page-link" href="{% url 'products:page' page %}">{{ page }}</a>
                             </li>
                         {% endfor %}
+
                         {% if products.has_next %}
                             <li class="page-item">
 
