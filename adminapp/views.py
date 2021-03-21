@@ -6,7 +6,6 @@ from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-
 from authapp.models import User
 from adminapp.forms import UserAdminRegistrationForm, UserAdminChangeForm, AdminProductCreationForm
 from adminapp.forms import ProductCategoryAdminReadForm
@@ -43,7 +42,7 @@ class UserCreateView(CreateView):
 
     @method_decorator(user_passes_test(lambda user: user.is_superuser, login_url='/'))
     def dispatch(self, request, *args, **kwargs):
-        return super(CreateView, self).dispatch(request, *args, **kwargs)
+        return super(UserCreateView, self).dispatch(request, *args, **kwargs)
 
 
 class UserUpdateView(UpdateView):
@@ -54,7 +53,7 @@ class UserUpdateView(UpdateView):
 
     @method_decorator(user_passes_test(lambda user: user.is_superuser, login_url='/'))
     def dispatch(self, request, *args, **kwargs):
-        return super(UpdateView, self).dispatch(request, *args, **kwargs)
+        return super(UserUpdateView, self).dispatch(request, *args, **kwargs)
 
 
 class UserDeleteView(DeleteView):
