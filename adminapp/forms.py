@@ -64,3 +64,17 @@ class AdminProductReadForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AdminProductReadForm, self).__init__(*args, **kwargs)
         self.fields['img_linked'].widget.attrs['class'] = 'custom-file-input'
+
+
+class ProductCategoryAdminReadForm(forms.ModelForm):
+    name = models.CharField(max_length=256, unique=True)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        model = ProductCategory
+        fields = ('name', 'description')
+
+    def __init__(self, *args, **kwargs):
+        super(ProductCategoryAdminReadForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control py-2'

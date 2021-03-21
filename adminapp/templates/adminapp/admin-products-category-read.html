@@ -3,7 +3,7 @@
 
 {% block main %}
     <div class="container-fluid">
-        <h1 class="mt-4">Продукты</h1>
+        <h1 class="mt-4">Категории товаров</h1>
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table mr-1"></i>
@@ -15,28 +15,22 @@
                         <thead>
                         <tr>
                             <th>Название</th>
-                            <th>Цена</th>
-                            <th>Количество</th>
-                            <th>Категория</th>
+                            <th>Описание</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
                             <th>Название</th>
-                            <th>Цена</th>
-                            <th>Количество</th>
-                            <th>Категория</th>
+                            <th>Описание</th>
                         </tr>
                         </tfoot>
                         <tbody>
                         {% for item in object_list %}
                             <tr>
-                                <td><a href="{% url 'staff_admin:update-product' item.id %}"
+                                <td><a href="{% url 'staff_admin:update-product-category' item.id %}"
                                        style="color: dodgerblue">{{ item.name }}</a>
                                 </td>
-                                <td>{{ item.price }}</td>
-                                <td>{{ item.quantity }}</td>
-                                <td>{{ item.category }}</td>
+                                <td>{{ item.description }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -44,8 +38,8 @@
                 </div>
             </div>
             <div class="card-footer">
-                <a href="{% url 'staff_admin:create-product' %}">
-                    <button class="btn btn-success">Добавить товар</button>
+                <a href="{% url 'staff_admin:create-product-category' %}">
+                    <button class="btn btn-success">Добавить категорию</button>
                 </a>
             </div>
         </div>
