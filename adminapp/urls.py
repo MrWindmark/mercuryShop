@@ -1,17 +1,26 @@
 from django.urls import path
-from adminapp.views import (index, admin_user_read, admin_user_create, admin_user_update, admin_user_delete,
-                            admin_product_read, admin_product_create, admin_product_update, admin_product_delete)
+from adminapp.views import index
+from adminapp.views import UserListView, UserCreateView, UserUpdateView, UserDeleteView
+from adminapp.views import ProductListView, ProductCreateView, ProductUpdateView, ProductDeleteView
+from adminapp.views import (ProductCategoryListView, ProductCategoryCreateView, ProductCategoryUpdateView,
+                            ProductCategoryDeleteView)
 
 app_name = 'adminapp'
 
 urlpatterns = [
     path('', index, name='index'),
-    path('users/', admin_user_read, name='users_read'),
-    path('create-user/', admin_user_create, name='create-user'),
-    path('update-user/<int:user_id>/', admin_user_update, name='update_user'),
-    path('delete-user/<int:user_id>', admin_user_delete, name='delete_user'),
-    path('list-product/', admin_product_read, name='read-product'),
-    path('create-product/', admin_product_create, name='create-product'),
-    path('update-product/<int:product_id>/', admin_product_update, name='update_product'),
-    path('delete-product/<int:product_id>', admin_product_delete, name='delete_product'),
+    path('users/', UserListView.as_view(), name='users-read'),
+    path('create-user/', UserCreateView.as_view(), name='create-user'),
+    path('update-user/<int:pk>/', UserUpdateView.as_view(), name='update-user'),
+    path('delete-user/<int:pk>/', UserDeleteView.as_view(), name='delete-user'),
+
+    path('list-product/', ProductListView.as_view(), name='read-product'),
+    path('create-product/', ProductCreateView.as_view(), name='create-product'),
+    path('update-product/<int:pk>/', ProductUpdateView.as_view(), name='update-product'),
+    path('delete-product/<int:pk>/', ProductDeleteView.as_view(), name='delete-product'),
+
+    path('list-product-category/', ProductCategoryListView.as_view(), name='read-product-category'),
+    path('create-product-category/', ProductCategoryCreateView.as_view(), name='create-product-category'),
+    path('update-product-category/<int:pk>/', ProductCategoryUpdateView.as_view(), name='update-product-category'),
+    path('delete-product-category/<int:pk>/', ProductCategoryDeleteView.as_view(), name='delete-product-category'),
 ]
