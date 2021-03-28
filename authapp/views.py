@@ -9,7 +9,6 @@ from django.views import View
 
 from authapp.forms import FormUserLogin, FormUserRegister, FormUserProfile
 from authapp.models import User
-from basketapp.models import Basket
 
 
 # Create your views here.
@@ -78,7 +77,7 @@ class UserRegisterVeiw(View):
     def send_email_for_verify(self, request, user):
         verify_link = reverse('authapp:verify', args=[user.username, user.activation_key])
         title = f'Активация профиля GeekShop'
-        email_text = f'Для активации пользователя перейдите по ссылке: \n {request.META["HTTP_HOST"]}' \
+        email_text = f'Для активации пользователя перейдите по ссылке: \n{request.META["HTTP_HOST"]}' \
                      f'{verify_link}' \
                      f'\n\nЕсли вы не регистрировались на сайте, проигнорируйте данное сообщение'
         return send_mail(title, email_text, settings.EMAIL_HOST_USER, [user.email, ])
@@ -93,7 +92,6 @@ class UserProfileView(View):
         form = self.form_class(instance=user)
         context = {
             'form': form,
-            'baskets': Basket.objects.filter(user=user),
             'title': 'GeekShop - Профиль',
         }
         return render(request, 'authapp/profile.html', context)
@@ -108,7 +106,6 @@ class UserProfileView(View):
             return HttpResponseRedirect(reverse_lazy('auth:profile'))
         context = {
             'form': form,
-            'baskets': Basket.objects.filter(user=user),
             'title': 'GeekShop - Профиль',
         }
         return render(request, 'authapp/profile.html', context)
