@@ -125,3 +125,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'authapp.User'
 
 LOGIN_URL = '/auth/login/'
+
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = 'a70ca046dd0770'
+EMAIL_HOST_PASSWORD = '4b4b2fc2f4ca33'
+EMAIL_PORT = '2525'
+
+EMAIL_BACKENDS = 'django.core.mail.backends.smtp.EmailBackends'
