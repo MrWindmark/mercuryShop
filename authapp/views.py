@@ -7,6 +7,8 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.views import View
 
+from django.db import transaction
+
 from authapp.forms import FormUserLogin, FormUserRegister, FormUserProfile
 from authapp.models import User
 
@@ -55,7 +57,7 @@ class UserVerifyView(View):
             return HttpResponseRedirect(reverse_lazy('index'))
 
 
-class UserRegisterVeiw(View):
+class UserRegisterView(View):
     form_class = FormUserRegister
     template_name = 'authapp/register.html'
 

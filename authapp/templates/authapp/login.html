@@ -45,7 +45,19 @@
                 </form>
             </div>
             <div class="card-footer text-center">
-                <div class="small"><a href="{% url 'auth:register' %}">Нужен аккаунт? Зарегистрируйся!</a></div>
+                <div class="small">
+                    <a href="{% url 'auth:register' %}">Нужен аккаунт? Зарегистрируйся!</a>
+                </div>
+                <div class="small pt-2">
+                    <a href="{% url 'oauth:begin' 'vk-oauth2' %}?next=/">
+                        Вход через ВКонтакте
+                    </a>
+                </div>
+                <div class="small pt-2">
+                    <a href="{% url 'oauth:begin' 'google-oauth2' %}?next=/">
+                        Вход через Google
+                    </a>
+                </div>
             </div>
         </div>
     </div>

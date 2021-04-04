@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.utils.crypto import random
 
-from authapp.models import User
+from authapp.models import User, UserProfile
 
 
 class FormUserLogin(AuthenticationForm):
@@ -60,3 +60,14 @@ class FormUserProfile(UserChangeForm):
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control py-4'
         self.fields['avatar'].widget.attrs['class'] = 'custom-file-input'
+
+
+class FormUserProfileEdit(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('tagline', 'about_myself', 'gender')
+
+    def __init__(self, *args, **kwargs):
+        super(FormUserProfileEdit, self).__init__(*args, **kwargs)
+        for field_name, fields in self.fields.items():
+            fields.widget.attrs['class'] = 'form-control'

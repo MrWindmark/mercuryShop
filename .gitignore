@@ -2,4 +2,4 @@
 __pycache__/
 db.sqlite3
 media
-/mercury/security.py
+/mercury/passwords_security.py
