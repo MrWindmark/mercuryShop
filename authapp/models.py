@@ -1,4 +1,6 @@
 from datetime import timedelta
+
+from django.utils.datetime_safe import date
 from django.utils.timezone import now
 
 from django.db import models
@@ -12,6 +14,8 @@ from django.dispatch import receiver
 class User(AbstractUser):
     avatar = models.ImageField(upload_to='users_avatar', blank=True)
     birth_date = models.DateField(blank=True, default='1970-01-01')
+    age = models.PositiveSmallIntegerField(verbose_name='Возраст', default=18)
+
 
     activation_key = models.CharField(max_length=128, blank=True)
     activation_key_live_time = models.DateTimeField(default=(now() + timedelta(hours=24)))
