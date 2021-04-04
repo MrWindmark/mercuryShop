@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 import os
-
+from mercury.security import SECRET_KEY_VALUE, EMAIL_HOST_USER_VALUE, EMAIL_HOST_PASSWORD_VALUE
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '#6!pevx%&l$&5w)w1)@#!rp)tc0__h$=z)ri2u+9^y$-w$@=a='
+SECRET_KEY = SECRET_KEY_VALUE
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -128,8 +128,8 @@ AUTH_USER_MODEL = 'authapp.User'
 LOGIN_URL = '/auth/login/'
 
 EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = EMAIL_HOST_USER_VALUE
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD_VALUE
 EMAIL_PORT = '2525'
 
 EMAIL_BACKENDS = 'django.core.mail.backends.smtp.EmailBackends'
