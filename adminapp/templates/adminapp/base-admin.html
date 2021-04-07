@@ -47,23 +47,31 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Приложения</div>
-                    <a class="nav-link" href="{% url 'staff_admin:users-read' %}">
-                        <div class="sb-nav-link-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        Пользователи
-                    </a>
-                    <a class="nav-link" href="{% url 'staff_admin:read-product-category' %}">
-                        <div class="sb-nav-link-icon">
-                            <i class="fas fa-shopping-basket"></i>
-                        </div>
-                        Категории
-                    </a>
-                    <a class="nav-link" href="{% url 'staff_admin:read-product' %}">
+                    {% if user.is_superuser %}
+                        <a class="nav-link" href="{% url 'staff_admin:users-read' %}">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            Пользователи
+                        </a>
+                        <a class="nav-link" href="{% url 'staff_admin:read-product-category' %}">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-shopping-basket"></i>
+                            </div>
+                            Категории
+                        </a>
+                        <a class="nav-link" href="{% url 'staff_admin:read-product' %}">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-tshirt"></i>
+                            </div>
+                            Продукты
+                        </a>
+                    {% endif %}
+                    <a class="nav-link" href="{% url 'ordersapp:orders_list' %}">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-tshirt"></i>
                         </div>
-                        Продукты
+                        Список заказов
                     </a>
                 </div>
             </div>

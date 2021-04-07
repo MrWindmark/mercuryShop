@@ -37,18 +37,32 @@
                     </a>
                 </li>
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'auth:profile' %}">{{ user }}
-                            <i class="fas fa-user-circle"></i>
-                        </a>
-                    </li>
-                    {% if user.is_staff or user.is_superuser %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'staff_admin:index' %}">
-                                <i class="fas fa-toolbox"></i>
+                    <li>
+                        <div class="dropdown">
+                            <a class="dropdown-toggle nav-link" href="" data-toggle="dropdown">
+                                {{ user.first_name|default:'Пользователь' }}
+                                <span class="caret"></span>
                             </a>
-                        </li>
-                    {% endif %}
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'auth:profile' %}">
+                                        Профиль
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'orders:orders_list' %}">
+                                        Заказы
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                            {% if user.is_staff or user.is_superuser %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'staff_admin:index' %}">
+                                        <i class="fas fa-toolbox"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'auth:logout' %}">Выйти <i class="fas fa-sign-out-alt"></i></a>
                     </li>
