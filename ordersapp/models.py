@@ -4,13 +4,13 @@ from django.conf import settings
 from mainapp.models import Product
 
 
-class OrderQuerySet(models.QuerySet):
+class OrderItemQuerySet(models.QuerySet):
 
     def delete(self, *args, **kwargs):
         for object in self:
             object.product.quantity += object.quantity
             object.product.save()
-        super(OrderQuerySet, self).delete(*args, **kwargs)
+        super(OrderItemQuerySet, self).delete(*args, **kwargs)
 
 
 # Create your models here.
@@ -37,15 +37,13 @@ class Order(models.Model):
     status = models.CharField(verbose_name="Статус", max_length=3, choices=ORDER_STATUS_CHOICES, default=FORMING)
     is_active = models.BooleanField(verbose_name="Активен", default=True)
 
-    objects = OrderQuerySet.as_manager()
-
     class Meta:
         ordering = ("-created_at",)
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
 
     def __str__(self):
-        return 'Текущий заказ: {}'.format(self.id)
+        return f'Текущий заказ: {self.id}'
 
     def get_total_quantity(self):
         items = self.orderitems.select_related()
@@ -59,27 +57,40 @@ class Order(models.Model):
         items = self.orderitems.select_related()
         return sum(list(map(lambda x: x.quantity * x.product.price, items)))
 
-    def delete(self):
-        for item in self.orderitems.select_related():
-            item.product.quantity += item.quantity
-            item.product.save()
-
-        self.is_active = False
-        self.save()
+    def delete(self, *args, **kwargs):
+        if self.is_active:
+            for item in self.orderitems.select_related():
+                item.product.quantity += item.quantity
+                item.product.save()
+            self.is_active = False
+            self.save()
+        else:
+            # django admin panel crash without this part on delete
+            super(models.Model, self).delete(*args, **kwargs)
+            self.delete(*args, **kwargs)
 
 
 class OrderItem(models.Model):
+    objects = OrderQuerySet.as_manager()
+
     order = models.ForeignKey(Order, related_name="orderitems", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, verbose_name='продукт', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(verbose_name='количество', default=0)
 
+    def __str__(self):
+        return f'Текущий заказ {self.id}'
+
     def get_product_cost(self):
         return self.product.price * self.quantity
+
+    @staticmethod
+    def get_item(pk):
+        return OrderItem.objects.filter(pk=pk).first()
 
     def save(self, *args, **kwargs):
         if self.pk:
             self.product.quantity -= self.quantity - \
-                                     self.__class__.get_item(self.pk).quantity
+                                     self.__class__.get_items(self.pk).quantity
         else:
             self.product.quantity -= self.quantity
         self.product.save()
