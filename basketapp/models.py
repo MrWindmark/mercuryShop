@@ -24,7 +24,7 @@ class Basket(models.Model):
 
     def __str__(self):
         return f'Корзина для {self.user.username} | Продукт {self.product.name}'
-    
+
     # Changes in basket don't mean that order created
     # def save(self, *args, **kwargs):
     #     if self.pk:
