@@ -21,12 +21,6 @@ class OrderItemForm(forms.ModelForm):
 
     class Meta:
         model = OrderItem
-        fields = (
-            'order',
-            'quantity',
-            'product',
-            'price',
-        )
         exclude = ()
 
     def __init__(self, *args, **kwargs):

@@ -84,7 +84,7 @@ class OrderItem(models.Model):
         return self.product.price * self.quantity
 
     @staticmethod
-    def get_item(pk):
+    def get_items(pk):
         return OrderItem.objects.filter(pk=pk).first()
 
     def save(self, *args, **kwargs):
