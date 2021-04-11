@@ -31,21 +31,27 @@
                             <td>{{ item.updated|date:"Y-m-d H:i:s" }}</td>
                             <td>{{ item.get_status_display }}</td>
                             <td>
-                                <a href="{% url 'ordersapp:order_read' item.pk %}" class="btn btn-primary">
-                                    посмотреть
+                                <a href="{% url 'ordersapp:order_read' item.pk %}">
+                                    <button type="button" class="btn btn-primary btn-lg float-right">
+                                        посмотреть
+                                    </button>
                                 </a>
                             </td>
                             <td>
                                 {% if item.status == 'FM' %}
-                                    <a href="{% url 'ordersapp:order_update' item.pk %}" class="btn btn-primary">
-                                        редактировать
+                                    <a href="{% url 'ordersapp:order_update' item.pk %}">
+                                        <button type="button" class="btn btn-primary btn-lg float-right">
+                                            редактировать
+                                        </button>
                                     </a>
                                 {% endif %}
                             </td>
                             <td>
                                 {% if item.status == 'FM' %}
-                                    <a href="{% url 'ordersapp:order_delete' item.pk %}" class="btn btn-primary">
-                                        удалить
+                                    <a href="{% url 'ordersapp:order_delete' item.pk %}">
+                                        <button type="button" class="btn btn-primary btn-lg float-right">
+                                            удалить
+                                        </button>
                                     </a>
                                 {% endif %}
                             </td>
