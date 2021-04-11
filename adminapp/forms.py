@@ -35,17 +35,17 @@ class AdminProductCreationForm(forms.ModelForm):
     img_linked = forms.ImageField(widget=forms.FileInput(), required=False)
 
 
-class Meta:
-    model = Product
-    fields = ('name', 'description', 'short_description',
-              'price', 'img_linked', 'quantity', 'category', 'sale_action')
+    class Meta:
+        model = Product
+        fields = ('name', 'description', 'short_description',
+                  'price', 'img_linked', 'quantity', 'category', 'sale_action')
 
 
-def __init__(self, *args, **kwargs):
-    super(AdminProductCreationForm, self).__init__(*args, **kwargs)
-    for field_name, field in self.fields.items():
-        field.widget.attrs['class'] = 'form-control py-2'
-    self.fields['img_linked'].widget.attrs['class'] = 'custom-file-input'
+    def __init__(self, *args, **kwargs):
+        super(AdminProductCreationForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control py-2'
+        self.fields['img_linked'].widget.attrs['class'] = 'custom-file-input'
 
 
 class AdminProductReadForm(forms.ModelForm):

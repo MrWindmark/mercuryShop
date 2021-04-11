@@ -4,6 +4,15 @@ from django.conf import settings
 from mainapp.models import Product
 
 
+class OrderQuerySet(models.QuerySet):
+
+    def delete(self, *args, **kwargs):
+        for object in self:
+            object.product.quantity += object.quantity
+            object.product.save()
+        super(OrderQuerySet, self).delete(*args, **kwargs)
+
+
 # Create your models here.
 class Order(models.Model):
     FORMING = 'FM'
@@ -27,6 +36,8 @@ class Order(models.Model):
     updated_at = models.DateTimeField(verbose_name="Изменён", auto_now=True)
     status = models.CharField(verbose_name="Статус", max_length=3, choices=ORDER_STATUS_CHOICES, default=FORMING)
     is_active = models.BooleanField(verbose_name="Активен", default=True)
+
+    objects = OrderQuerySet.as_manager()
 
     class Meta:
         ordering = ("-created_at",)
@@ -55,6 +66,7 @@ class Order(models.Model):
 
         self.is_active = False
         self.save()
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="orderitems", on_delete=models.CASCADE)
