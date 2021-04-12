@@ -4,7 +4,7 @@ window.onload = function () {
     let price_arr = [];
 
     const TOTAL_FORMS = parseInt($('input[name="orderitems-TOTAL_FORMS"]').val());
-    // console.info("Forms: ", TOTAL_FORMS);
+    console.info("Forms: ", TOTAL_FORMS);
 
     const order_quantity_target_element = $('.order_total_quantity');
     const order_cost_target_element = $('.order_total_cost');
@@ -61,6 +61,7 @@ window.onload = function () {
             orderSummaryUpdate(price_arr[orderitem_num], delta_quantity);
         }
     });
+
     order_form.on('click', 'input[type="checkbox"]', function () {
         let target = event.target;
         orderitem_num = parseInt(target.name.replace('orderitems-', '').replace('-DELETE', ''));
@@ -73,4 +74,19 @@ window.onload = function () {
         }
         orderSummaryUpdate(price_arr[orderitem_num], delta_quantity);
     });
+
+    $('.formset_row').formset({
+        addText: 'добавить продукт',
+        deleteText: 'удалить',
+        prefix: 'orderitems',
+        removed: deleteOrderItem
+    });
+
+    function deleteOrderItem(row) {
+        var target_name = row[0].querySelector('input[type="number"]').name;
+        orderitem_num = parseInt(target_name.replace('orderitems-', '').replace('-quantity', ''));
+        delta_quantity = -quantity_arr[orderitem_num];
+        orderSummaryUpdate(price_arr[orderitem_num], delta_quantity);
+    }
+
 }
