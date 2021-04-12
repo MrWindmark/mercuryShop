@@ -37,17 +37,18 @@ window.onload = function () {
             order_quantity_target_element.html(order_total_quantity_value.toString());
             order_cost_target_element.html(Number(order_total_cost.toFixed(2)).toString());
         }
-
-        function orderSummaryUpdate(orderitem_price, delta_quantity) {
-            delta_cost = orderitem_price * delta_quantity;
-
-            order_total_cost = Number((order_total_cost + delta_cost).toFixed(2));
-            order_total_quantity_value = order_total_quantity_value + delta_quantity;
-
-            order_cost_target_element.html(order_total_cost.toString());
-            order_quantity_target_element.html(order_total_quantity_value.toString());
-        }
     }
+
+    function orderSummaryUpdate(orderitem_price, delta_quantity) {
+        delta_cost = orderitem_price * delta_quantity;
+
+        order_total_cost = Number((order_total_cost + delta_cost).toFixed(2));
+        order_total_quantity_value = order_total_quantity_value + delta_quantity;
+
+        order_cost_target_element.html(order_total_cost.toString());
+        order_quantity_target_element.html(order_total_quantity_value.toString());
+    }
+
     let order_form = $('.order_form');
     order_form.on('click', 'input[type="number"]', function () {
         let target = event.target;
