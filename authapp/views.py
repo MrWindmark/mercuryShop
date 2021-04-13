@@ -1,15 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.contrib import auth
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.views import View
 
-from authapp.forms import FormUserLogin, FormUserRegister, FormUserProfile
-from authapp.models import User
+from django.db import transaction
 
+from authapp.forms import FormUserLogin, FormUserRegister, FormUserProfile, FormUserSocialProfile
+from authapp.models import User, UserProfile
 
 # Create your views here.
 from django.conf import settings
@@ -55,7 +56,7 @@ class UserVerifyView(View):
             return HttpResponseRedirect(reverse_lazy('index'))
 
 
-class UserRegisterVeiw(View):
+class UserRegisterView(View):
     form_class = FormUserRegister
     template_name = 'authapp/register.html'
 
@@ -84,28 +85,47 @@ class UserRegisterVeiw(View):
 
 
 class UserProfileView(View):
+    model = UserProfile
     form_class = FormUserProfile
+    form_class_second = FormUserSocialProfile
+
+    def get_object(self):
+        return get_object_or_404(User, pk=self.request.user.pk)
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileView, self).get_context_data(**kwargs)
+
+        self_pk = self.object.pk
+        user = User.objects.get(pk=self_pk)
+        context['profile_form'] = self.form_class_second(instance=user.userprofile)
+        return context
 
     @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         user = request.user
         form = self.form_class(instance=user)
+        profile_form = self.form_class_second(data=request.POST, instance=user.userprofile)
         context = {
             'form': form,
+            'profile_form': profile_form,
             'title': 'GeekShop - Профиль',
         }
         return render(request, 'authapp/profile.html', context)
 
     @method_decorator(login_required)
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         user = request.user
         form = self.form_class(data=request.POST, files=request.FILES, instance=user)
-        if form.is_valid():
+        profile_form = self.form_class_second(data=request.POST, files=request.FILES, instance=user.userprofile)
+        if form.is_valid() and profile_form.is_valid():
             form.save()
+            user.userprofile.save()
             messages.info(request, 'Data has been changed successfully!')
             return HttpResponseRedirect(reverse_lazy('auth:profile'))
         context = {
             'form': form,
+            'profile_form': profile_form,
             'title': 'GeekShop - Профиль',
         }
         return render(request, 'authapp/profile.html', context)
