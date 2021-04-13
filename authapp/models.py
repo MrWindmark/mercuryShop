@@ -30,7 +30,7 @@ class UserProfile(models.Model):
 
     GENDER_CHOICES = (
         (MALE, "Male"),
-        (FEMALE, "Female")
+        (FEMALE, "Female"),
     )
 
     user = models.OneToOneField(
@@ -38,26 +38,26 @@ class UserProfile(models.Model):
         unique=True,
         null=False,
         db_index=True,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
 
     tagline = models.CharField(
         verbose_name='тэги',
         max_length=128,
-        blank=True
+        blank=True,
     )
 
     about_myself = models.CharField(
         verbose_name='О себе',
         max_length=512,
-        blank=True
+        blank=True,
     )
 
     gender = models.CharField(
         verbose_name='Пол',
         max_length=1,
         choices=GENDER_CHOICES,
-        blank=True
+        blank=True,
     )
 
     @receiver(post_save, sender=User)
