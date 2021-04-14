@@ -33,7 +33,7 @@ class UserLoginView(View):
             user = auth.authenticate(username=username, password=password)
             if user and user.is_active:
                 auth.login(request, user)
-                return HttpResponseRedirect/orders-list/(reverse_lazy('index'))
+                return HttpResponseRedirect(reverse_lazy('index'))
         return render(request, self.template_name, context)
 
 
