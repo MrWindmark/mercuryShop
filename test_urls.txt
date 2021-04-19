@@ -1,0 +1,6 @@
+http://127.0.0.1:8000/auth/login/ POST username=test1&password=AGeNt009
+http://127.0.0.1:8000/products/
+http://127.0.0.1:8000/auth/profile/
+http://127.0.0.1:8000/basket/
+http://127.0.0.1:8000/orders-list/
+http://127.0.0.1:8000/products/category/1/
