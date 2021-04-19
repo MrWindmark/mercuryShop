@@ -1,5 +1,6 @@
 import hashlib
 
+
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.utils.crypto import random

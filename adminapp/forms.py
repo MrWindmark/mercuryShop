@@ -8,9 +8,10 @@ from django.db import models
 class UserAdminRegistrationForm(FormUserRegister):
     avatar = forms.ImageField(widget=forms.FileInput(), required=False)
 
+
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'is_active', 'is_staff')
+        fields = ('first_name', 'last_name', 'username', 'age', 'email', 'password1', 'password2', 'is_active', 'is_staff')
 
     def __init__(self, *args, **kwargs):
         super(UserAdminRegistrationForm, self).__init__(*args, **kwargs)
