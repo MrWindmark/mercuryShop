@@ -18,9 +18,13 @@ from ordersapp.forms import OrderForm, OrderItemForm
 
 class OrderList(ListView):
     model = Order
+    template_name = 'ordersapp/order_list.html'
 
     @method_decorator(login_required)
-    def get_queryset(self):
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def get_queryset(self, request):
         return Order.objects.filter(user=self.request.user)
 
 
