@@ -24,7 +24,7 @@ class OrderList(ListView):
     def get(self, request):
         if self.request.user.is_superuser:
             context = {
-                'object_list': Order.objects.all(),
+                'object_list': Order.objects.all().select_related(),
             }
         else:
             context = {
