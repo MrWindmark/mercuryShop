@@ -22,7 +22,15 @@ class OrderList(ListView):
 
     @method_decorator(login_required)
     def get(self, request):
-        return render(request, self.template_name)
+        if self.request.user.is_superuser:
+            context = {
+                'object_list': Order.objects.all(),
+            }
+        else:
+            context = {
+                'object_list': self.get_queryset,
+            }
+        return render(request, self.template_name, context=context)
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
