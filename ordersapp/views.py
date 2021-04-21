@@ -24,7 +24,7 @@ class OrderList(ListView):
     def get(self, request):
         return render(request, self.template_name)
 
-    def get_queryset(self, request):
+    def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
 
 
