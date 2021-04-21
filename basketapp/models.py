@@ -1,7 +1,9 @@
 from django.db import models
+from django.utils.functional import cached_property
 
 from authapp.models import User
 from mainapp.models import Product
+
 
 # Changes in basket don't mean that order created
 # class BasketQuerySet(models.QuerySet):
@@ -35,11 +37,20 @@ class Basket(models.Model):
     #     self.product.save()
     #     super(self.__class__, self).save(*args, **kwargs)
 
+    @cached_property
+    def get_cached_items(self):
+        return self.user.basket_set.select_related()
+
     def sum(self):
         return self.quantity * self.product.price
 
     def total_quantity(self):
-        return sum(basket.quantity for basket in Basket.objects.filter(user=self.user))
+        _items = self.get_cached_items
+        # return sum(basket.quantity for basket in Basket.objects.filter(user=self.user))
+        return sum(list(map(lambda obj: obj.quantity, _items)))
 
     def total_price(self):
-        return sum(basket.sum() for basket in Basket.objects.filter(user=self.user))
+        _items = self.get_cached_items
+        # return sum(basket.sum() for basket in Basket.objects.filter(user=self.user))
+        return sum(list(map(lambda obj: obj.sum(), _items)))
+
