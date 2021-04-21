@@ -77,7 +77,7 @@ class OrderCreate(CreateView):
                 orderitems.save()
 
         # удаляем пустой заказ
-        if self.object.get_total_cost() == 0:
+        if self.object.get_summary()['total_cost'] == 0:
             self.object.delete()
 
         return super(OrderCreate, self).form_valid(form)
