@@ -11,7 +11,6 @@ from mainapp.models import Product, ProductCategory
 
 
 # Create your views here.
-@cache_page(3600)
 def index(request):
     context = {
         'title': 'GeekShop',

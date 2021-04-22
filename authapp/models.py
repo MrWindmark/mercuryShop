@@ -29,6 +29,7 @@ class UserProfile(models.Model):
     FEMALE = 'F'
 
     GENDER_CHOICES = (
+        (None, "Изменить указанный ранее"),
         (MALE, "Male"),
         (FEMALE, "Female"),
     )
@@ -59,6 +60,8 @@ class UserProfile(models.Model):
         choices=GENDER_CHOICES,
         blank=True,
     )
+    def get_user_gender(self, instance):
+        return instance.userprofile.gender
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, *args, **kwargs):
