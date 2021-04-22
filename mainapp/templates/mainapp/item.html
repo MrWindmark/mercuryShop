@@ -1,0 +1,59 @@
+{% extends 'mainapp/idx-prod-base.html' %}
+{% load staticfiles %}
+
+{% block css %}
+    <link href="{% static 'css/products.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block page-content %}
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-3">
+
+                <h1 class="my-4">GeekShop</h1>
+                <div class="list-group">
+                    <a href="{% url 'products:index' %}"
+                       class="list-group-item">Все товары</a>
+                    {% for category in categories %}
+                        <a href="{% url 'products:category' category.id %}"
+                           class="list-group-item">{{ category.name }}</a>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="mt-3 mb-3">
+                            {{ item.description }}
+                        </div>
+                        <div class="card h-100">
+                            <a href="{% url 'products:item' item.id %}">
+                                <img class="card-img-top"
+                                     src="/media/{{ item.img_linked }}"
+                                     alt="">
+                            </a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="{% url 'products:item' item.id %}">{{ item.name }}</a>
+                                </h4>
+                                <h5>{{ item.price }} руб.</h5>
+                                <p class="card-text">{{ item.short_description }}</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="{% url 'basket:basket_add' item.id %}">
+                                    <button type="button" class="btn btn-outline-success">
+                                        Отправить в корзину
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -31,6 +31,13 @@ def products(request, category_id=None, page_number=1):
     context.update({'products': products_paginator})
     return render(request, 'mainapp/products.html', context)
 
+def item(request, id):
+    context = {
+        'title': 'GeekShop - Каталог',
+        'categories': get_links_menu(),
+        'item': get_product(id),
+    }
+    return render(request, 'mainapp/item.html', context)
 
 def get_links_menu():
     if settings.LOW_CACHE:
