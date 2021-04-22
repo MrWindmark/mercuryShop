@@ -206,3 +206,17 @@ EMAIL_HOST_PASSWORD = __EMAIL_HOST_PASSWORD_VALUE
 EMAIL_PORT = '2525'
 
 EMAIL_BACKENDS = 'django.core.mail.backends.smtp.EmailBackends'
+
+if os.name == 'posix':
+    CACHE_MIDDLEWARE_ALIAS = 'default'
+    CACHE_MIDDLEWARE_SECONDS = 120
+    CACHE_MIDDLEWARE_KEY_PREFIX = 'geekshop'
+
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': '127.0.0.1:11211',
+        }
+    }
+
+LOW_CACHE = True
