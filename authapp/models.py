@@ -60,8 +60,8 @@ class UserProfile(models.Model):
         choices=GENDER_CHOICES,
         blank=True,
     )
-    def get_user_gender(self, instance):
-        return instance.userprofile.gender
+    def get_user_gender(self):
+        return UserProfile.objects.get(user=self.user)
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, *args, **kwargs):

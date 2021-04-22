@@ -104,7 +104,7 @@ class UserProfileView(View):
     def get(self, request, *args, **kwargs):
         user = request.user
         form = self.form_class(instance=user)
-        profile_form = self.form_class_second(data=request.POST, instance=user.userprofile)
+        profile_form = self.form_class_second(data=request.GET, instance=user.userprofile)
         context = {
             'form': form,
             'profile_form': profile_form,
