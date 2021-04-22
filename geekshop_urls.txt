@@ -107,7 +107,8 @@
 /media/<path>	django.views.static.serve
 /orders-list/	ordersapp.views.OrderList	orders:orders_list
 /products/	mainapp.views.products	products:index
-/products/<int:category_id>/	mainapp.views.products	products:product
+/products/category/<int:category_id>/	mainapp.views.products	products:category
+/products/item/<int:id>/	mainapp.views.item	products:item
 /products/page/<int:page_number>/	mainapp.views.products	products:page
 /read/<pk>	ordersapp.views.OrderRead	orders:order_read
 /stuff-admin/	adminapp.views.index	staff_admin:index
