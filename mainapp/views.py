@@ -1,8 +1,11 @@
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
 from django.core.cache import cache
 from django.conf import settings
 from django.views.decorators.cache import cache_page
+
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 from mainapp.models import Product, ProductCategory
 
@@ -14,6 +17,7 @@ def index(request):
         'title': 'GeekShop',
     }
     return render(request, 'mainapp/index.html', context)
+
 
 @cache_page(3600)
 def products(request, category_id=None, page_number=1):
@@ -33,6 +37,7 @@ def products(request, category_id=None, page_number=1):
     context.update({'products': products_paginator})
     return render(request, 'mainapp/products.html', context)
 
+
 def item(request, id):
     context = {
         'title': 'GeekShop - Каталог',
@@ -40,6 +45,7 @@ def item(request, id):
         'item': get_product(id),
     }
     return render(request, 'mainapp/item.html', context)
+
 
 def get_links_menu():
     if settings.LOW_CACHE:
@@ -87,3 +93,51 @@ def get_products_in_category(pk):
         return products
     else:
         return Product.objects.filter(category__pk=pk)
+
+def get_category(pk):
+    if settings.LOW_CACHE:
+        key = f'category_{pk}'
+        category = cache.get(key)
+        if category is None:
+            category = get_object_or_404(ProductCategory, pk=pk)
+            cache.set(key, category)
+        return category
+    else:
+        return get_object_or_404(ProductCategory, pk=pk)
+
+
+def products_ajax(request, pk=None, page=1):
+    if request.is_ajax():
+        links_menu = get_links_menu()
+
+        if pk:
+            if pk == '0':
+                category = {
+                    'pk': 0,
+                    'name': 'все'
+                }
+                products = get_all_products()
+            else:
+                category = get_category(pk)
+                products = get_products_in_category(pk)
+
+            paginator = Paginator(products, 2)
+            try:
+                products_paginator = paginator.page(page)
+            except PageNotAnInteger:
+                products_paginator = paginator.page(1)
+            except EmptyPage:
+                products_paginator = paginator.page(paginator.num_pages)
+
+            content = {
+                'links_menu': links_menu,
+                'category': category,
+                'products': products_paginator,
+            }
+
+            result = render_to_string(
+                'mainapp/products_list_inc.html',
+                context=content,
+                request=request)
+
+            return JsonResponse({'result': result})
