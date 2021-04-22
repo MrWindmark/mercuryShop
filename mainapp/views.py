@@ -2,18 +2,20 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.core.cache import cache
 from django.conf import settings
+from django.views.decorators.cache import cache_page
 
 from mainapp.models import Product, ProductCategory
 
 
 # Create your views here.
+@cache_page(3600)
 def index(request):
     context = {
         'title': 'GeekShop',
     }
     return render(request, 'mainapp/index.html', context)
 
-
+@cache_page(3600)
 def products(request, category_id=None, page_number=1):
     context = {
         'title': 'GeekShop - Каталог',
