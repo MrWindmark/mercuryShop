@@ -177,6 +177,7 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Europe/Moscow'
 
 DATE_INPUT_FORMATS = ['%d-%m-%Y']
+DATE_FORMAT = ['%d-%m-%Y']
 
 USE_I18N = True
 

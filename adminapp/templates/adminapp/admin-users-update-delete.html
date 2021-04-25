@@ -3,7 +3,7 @@
 
 {% block main %}
     <div class="container-fluid">
-        <h1 class="mt-4">Редактирование пользователя | valeriy</h1>
+        <h1 class="mt-4">Редактирование пользователя | {{ user.first_name|default:'Пользователь' }}</h1>
         <div class="card-body">
             <form action="{% url 'staff_admin:update-user' user.id %}" method='POST' enctype="multipart/form-data">
                 {% csrf_token %}
