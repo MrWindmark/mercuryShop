@@ -45,5 +45,38 @@ class TestUserManagement(TestCase):
         self.assertEqual(response.context['user'], self.user)
         # self.assertIn('Пользователь', response.content.decode())
 
+    def test_basket_login_redirect(self):
+        # без логина должен переадресовать
+        response = self.client.get('/auth/profile/')
+        self.assertEqual(response.url, '/auth/login/?next=/auth/profile/')
+        self.assertEqual(response.status_code, 302)
+
+        # с логином все должно быть хорошо
+        self.client.login(username='tarantino', password='geekbrains')
+
+        response = self.client.get('/auth/profile/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context['baskets']), [])
+        self.assertEqual(response.request['PATH_INFO'], '/auth/profile/')
+        # self.assertIn('Ваша корзина, Пользователь', response.content.decode())
+
+    def test_user_logout(self):
+        # данные пользователя
+        self.client.login(username='tarantino', password='geekbrains')
+
+        # логинимся
+        response = self.client.get('/auth/login/')
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context['user'].is_anonymous)
+
+        # выходим из системы
+        response = self.client.get('/auth/logout/')
+        self.assertEqual(response.status_code, 302)
+
+        # главная после выхода
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['user'].is_anonymous)
+
     def tearDown(self):
         call_command('sqlsequencereset', 'mainapp', 'authapp', 'ordersapp', 'basketapp')
